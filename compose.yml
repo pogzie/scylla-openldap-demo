@@ -1,0 +1,37 @@
+services:
+  openldap:
+    image: osixia/openldap:latest
+    container_name: openldap
+    environment:
+      LDAP_BASE_DN: "dc=example,dc=org"
+      LDAP_ORGANISATION: "Example Organization"
+      LDAP_DOMAIN: "example.org"
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_TLS: "false"         	# deactivate TLS for the LDAP server
+    volumes:
+      - ./ldap/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-bootstrap.ldif
+        #ports:
+        #      - "389:389"               	# default port for unsecured LDAP
+    command: --copy-service
+    restart: unless-stopped
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_HTTPS: "false"   # deactivate HTTPS
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+
+  scylla:
+    build: .
+      #    image: scylladb/scylla-enterprise:2024.1.10
+    command: --smp 1 --memory 2G --overprovisioned 1
+    volumes:
+      - ./scylla/saslauthd.conf:/etc/saslauthd.conf
+      - ./scylla/scylla.yaml:/etc/scylla/scylla.yaml
+      - ./scylla/saslauthd:/etc/default/saslauthd
+    container_name: scylla
+    restart: unless-stopped
