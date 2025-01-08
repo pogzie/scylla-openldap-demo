@@ -13,7 +13,11 @@ docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE j
 modify scylla.yaml to enable sasl and ldap 
 vim ./scylla/scylla.yaml
 
-#authenticator: PasswordAuthenticator
+find:
+authenticator: PasswordAuthenticator
+
+becomes:
+
 authenticator: com.scylladb.auth.SaslauthdAuthenticator
 saslauthd_socket_path: /var/run/saslauthd/mux
 
