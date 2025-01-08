@@ -8,6 +8,7 @@ http://localhost:8081
 login to scylla container 
 
 docker compose exec -it scylla service saslauthd restart
+
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE johndoe WITH LOGIN = true; CREATE ROLE 'anna.meier' WITH LOGIN = true;"
 
 modify scylla.yaml to enable sasl and ldap 
