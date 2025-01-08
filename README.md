@@ -9,12 +9,16 @@ login to scylla container
 
 docker compose exec -it scylla service saslauthd restart
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE johndoe WITH LOGIN = true; CREATE ROLE 'anna.meier' WITH LOGIN = true;"
-modify ./scylla/scylla.yaml to to enable sasl and ldap
+
+modify scylla.yaml to enable sasl and ldap 
+vim ./scylla/scylla.yaml
+
 ---
 #authenticator: PasswordAuthenticator
 authenticator: com.scylladb.auth.SaslauthdAuthenticator
 saslauthd_socket_path: /var/run/saslauthd/mux
 ----
+
 docker compose exec -it scylla supervisorctl restart scylla
 
 login to scylla with johndoe from ldap
