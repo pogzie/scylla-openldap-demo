@@ -17,7 +17,6 @@ vim ./scylla/scylla.yaml
 authenticator: com.scylladb.auth.SaslauthdAuthenticator
 saslauthd_socket_path: /var/run/saslauthd/mux
 
-
 docker compose exec -it scylla supervisorctl restart scylla
 
 login to scylla with johndoe from ldap
