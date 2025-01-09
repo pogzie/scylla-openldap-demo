@@ -22,7 +22,7 @@ docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE j
 
 #updates scylla.yaml to start using ldap on reboot.
 
-docker compose exec -it scylla cp scylla.yaml.ldap /etc/scylla/scylla.yaml
+docker compose exec -it scylla cp scylla.ldap /etc/scylla/scylla.yaml
 
 #restarts scylla server
 
