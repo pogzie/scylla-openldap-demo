@@ -1,7 +1,7 @@
 # scylla-openldap-demo
 
 #build custom scylla image with sasl2-bin vim ldapsearch
-docker compose build
+$docker compose build
 
 #launches 3 containers scylla, openldap and phpldapadmin 
 docker compose up -d
