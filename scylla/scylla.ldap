@@ -252,8 +252,8 @@ batch_size_fail_threshold_in_kb: 1024
 #   daemon. When using this authenticator, you must set the saslauthd_socket_path property to the
 #   Unix domain socket on which saslauthd is listening.
 #authenticator: PasswordAuthenticator
-#authenticator: com.scylladb.auth.SaslauthdAuthenticator
-#saslauthd_socket_path: /var/run/saslauthd/mux
+authenticator: com.scylladb.auth.SaslauthdAuthenticator
+saslauthd_socket_path: /var/run/saslauthd/mux
 
 # Authorization backend, implementing IAuthorizer; used to limit access/provide permissions
 # Out of the box, Scylla provides org.apache.cassandra.auth.{AllowAllAuthorizer,
