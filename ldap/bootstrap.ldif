@@ -33,6 +33,16 @@ uid: anna.meier
 mail: anna.meier@example.org
 userPassword: password456
 
+# user: Anna Meier for unit IT department
+dn: uid=cassandra,ou=IT,dc=example,dc=org
+changetype: add
+objectClass: inetOrgPerson
+cn: Cassandra
+sn: cassandra
+uid: cassandra
+mail: cassandra@example.org
+userPassword: cassandra
+
 # organisational unit for marketing department
 dn: ou=Marketing,dc=example,dc=org
 changetype: add

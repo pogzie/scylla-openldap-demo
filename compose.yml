@@ -1,4 +1,3 @@
-
 services:
   openldap:
     image: osixia/openldap:latest
@@ -32,9 +31,8 @@ services:
     volumes:
       - ./scylla/saslauthd.conf:/etc/saslauthd.conf
       - ./scylla/scylla.yaml:/etc/scylla/scylla.yaml
-      - ./scylla/scylla.yaml.ldap:/scylla.yaml.ldap
+      - ./scylla/scylla.ldap:/scylla.ldap
       - scylla-data:/var/lib/scylla
 
 volumes:
   scylla-data:
-
