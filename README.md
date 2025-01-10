@@ -35,3 +35,7 @@ docker compose exec -it scylla cqlsh -u johndoe -p password123
 #login to scylla server if needed
 
 docker compose exec -it scylla bash
+
+#phpldapadmin user and password
+user: cn=admin,dc=example,dc=org
+pass: adminpassword
