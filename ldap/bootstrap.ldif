@@ -7,11 +7,31 @@ cn: admin
 userPassword: adminpassword
 description: LDAP Administrator
 
+## OU CREATION ##
+
 # organisational unit for IT department
 dn: ou=IT,dc=example,dc=org
 changetype: add
 objectClass: organizationalUnit
 ou: IT
+
+# organisational unit for marketing department
+dn: ou=Marketing,dc=example,dc=org
+changetype: add
+objectClass: organizationalUnit
+ou: Marketing
+
+## USER CREATION ##
+
+# user: cassandra for unit IT department
+dn: uid=cassandra,ou=IT,dc=example,dc=org
+changetype: add
+objectClass: inetOrgPerson
+cn: Cassandra
+sn: cassandra
+uid: cassandra
+mail: cassandra@example.org
+userPassword: cassandra
 
 # user: John Doe for unit IT department
 dn: uid=johndoe,ou=IT,dc=example,dc=org
@@ -33,23 +53,7 @@ uid: anna.meier
 mail: anna.meier@example.org
 userPassword: password456
 
-# user: Anna Meier for unit IT department
-dn: uid=cassandra,ou=IT,dc=example,dc=org
-changetype: add
-objectClass: inetOrgPerson
-cn: Cassandra
-sn: cassandra
-uid: cassandra
-mail: cassandra@example.org
-userPassword: cassandra
-
-# organisational unit for marketing department
-dn: ou=Marketing,dc=example,dc=org
-changetype: add
-objectClass: organizationalUnit
-ou: Marketing
-
-# user: Peter Schmidt for the  der marketing department
+# user: Peter Schmidt for the marketing department
 dn: uid=peter.schmidt,ou=Marketing,dc=example,dc=org
 changetype: add
 objectClass: inetOrgPerson
@@ -58,3 +62,31 @@ sn: Schmidt
 uid: peter.schmidt
 mail: peter.schmidt@example.org
 userPassword: password789
+
+## SCYLLA ROLE CREATION
+
+# Superuser role, example.org
+# ldap_attr_role in scylla.yaml config is what maps to the Scylla built-in roles
+# For this example, custom cn attrribute is used which maps to the cassandra built-in role
+#   both users cassandra and johndoe are members
+# https://github.com/osixia/docker-openldap/issues/304#issuecomment-561843818
+# adding scyllaName does not work
+dn: cn=cassandra,ou=IT,dc=example,dc=org
+changetype: add
+objectClass: groupOfUniqueNames
+cn: cassandra
+#scyllaName: cassandra
+uniqueMember: uid=cassandra,ou=IT,dc=example,dc=org
+
+# Read only role, example.org
+dn: cn=read_only,ou=IT,dc=example,dc=org
+changetype: add
+objectClass: groupOfUniqueNames
+cn: read_only
+uniqueMember: uid=anna.meier,ou=IT,dc=example,dc=org
+
+dn: cn=read_write,ou=IT,dc=example,dc=org
+changetype: add
+objectClass: groupOfUniqueNames
+cn: read_write
+uniqueMember: uid=johndoe,ou=IT,dc=example,dc=org
