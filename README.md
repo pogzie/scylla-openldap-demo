@@ -7,7 +7,8 @@ Configure:
 - `compose.yml` - It might be wise to "simulate" your production setup with the corresponding values for the LDAP server. 
 
 Note:
-- If you want to test your `ldap_url_template` for correctness a simple `curl` command replacing the user value should work: `curl -u "cn=admin,dc=example,dc=org" "ldap://openldap:389/ou=IT,dc=example,dc=org?cn?sub?(uniqueMember=uid=anna.meier,ou=IT,dc=example,dc=org)"` 
+- If you want to test your `ldap_url_template` for correctness a simple `curl` command replacing the user value should work: `curl -u "cn=admin,dc=example,dc=org" "ldap://openldap:389/ou=IT,dc=example,dc=org?cn?sub?(uniqueMember=uid=anna.meier,ou=IT,dc=example,dc=org)"`
+- Volumes are created, take note when cleaning up or fresh installing.
 
 ### Clone repo, build and start
 ```
