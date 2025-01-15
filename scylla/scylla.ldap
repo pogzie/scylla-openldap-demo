@@ -255,6 +255,12 @@ batch_size_fail_threshold_in_kb: 1024
 authenticator: com.scylladb.auth.SaslauthdAuthenticator
 saslauthd_socket_path: /var/run/saslauthd/mux
 
+role_manager: "com.scylladb.auth.LDAPRoleManager"
+ldap_url_template: "ldap://openldap:389/ou=IT,dc=example,dc=org?cn?sub?(uniqueMember=uid={USER},ou=IT,dc=example,dc=org)"
+ldap_attr_role: "cn"
+ldap_bind_dn: "cn=admin,dc=example,dc=org"
+ldap_bind_passwd: "adminpassword"
+
 # Authorization backend, implementing IAuthorizer; used to limit access/provide permissions
 # Out of the box, Scylla provides org.apache.cassandra.auth.{AllowAllAuthorizer,
 # CassandraAuthorizer}.
