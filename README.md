@@ -102,7 +102,7 @@ docker compose exec -it scylla cqlsh -u johndoe -p password123 -e "INSERT INTO m
 docker compose exec -it scylla cqlsh -u johndoe -p password123 -e "SELECT * from my_keyspace.my_table;"
 ```
 
-### Test with the read_only role -- STILL BROKEN. Work in progress.
+### Test with the read_only role
 ```
 docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "INSERT INTO my_keyspace.my_table (id, name, age) VALUES ('62cf6c03-6548-4b37-8d7d-e8a92d36129c', 'Samwise Gamgee',27);"
 docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "SELECT * from my_keyspace.my_table;"
