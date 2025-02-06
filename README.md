@@ -115,6 +115,12 @@ Some commands will not work as intended. See note in https://enterprise.docs.scy
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "DROP ROLE read_only;"
 ```
 
+### You CAN create users with LOGIN = true but login is still LDAP dependent. You can NOT create a user with a password
+```
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE johnsmith WITH LOGIN = true;"
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE scyllauserwithpw WITH PASSWORD = 'helloworld' AND LOGIN = true;"
+```
+
 ### You can NOT alter roles and change passwords (LDAP should do this)
 ```
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "ALTER ROLE johndoe WITH PASSWORD = 'helloworld';"
