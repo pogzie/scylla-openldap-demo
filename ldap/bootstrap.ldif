@@ -63,6 +63,15 @@ uid: peter.schmidt
 mail: peter.schmidt@example.org
 userPassword: password789
 
+## Group CREATION ##
+
+dn: cn=scylla_group,ou=IT,dc=example,dc=org
+changetype: add
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: scylla_group
+uniqueMember: uid=johndoe,ou=IT,dc=example,dc=org
+
 ## SCYLLA ROLE CREATION
 
 # Superuser role, example.org
