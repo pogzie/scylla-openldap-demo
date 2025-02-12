@@ -166,3 +166,4 @@ docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "INSERT INT
 
 ### Other notes
 - phpLDAPAdmin is installed, login as `cn=admin,dc=example,dc=org` with `adminpassword`
+- A group `scylla_group` is bootstrapped in case further testing with groups is needed. Uncomment `ldap_group_dn` and `ldap_group_attr` in `scylla/saslauthd.conf` then run `service saslauthd restart` in the `scylla` container to apply. Only `johndoe` is listed as a member of that group
