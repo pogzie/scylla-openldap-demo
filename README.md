@@ -4,7 +4,8 @@ Configure:
 - `ldap/bootstrap.ldif` - LDAP objects you can edit and would be boostrapped on start
 - `scylla/scylla.ldap` - Edit if you have changes to `role_manager` related values
 - `scylla/saslauthd.conf` - Edit if you want to change LDAP related connection/filter rules
-- `compose.yml` - It might be wise to "simulate" your production setup with the corresponding values for the LDAP server. 
+- `compose.yml` - It might be wise to "simulate" your production setup with the corresponding values for the LDAP server.
+- `Dockerfile` - Modify for specific version tests `FROM scylladb/scylla-enterprise:2024.1.14`
 
 Note:
 - If you want to test your `ldap_url_template` for correctness a simple `curl` command replacing the user value should work: `curl -u "cn=admin,dc=example,dc=org" "ldap://openldap:389/ou=IT,dc=example,dc=org?cn?sub?(uniqueMember=uid=anna.meier,ou=IT,dc=example,dc=org)"`
@@ -162,6 +163,11 @@ docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ALL PERM
 ### Test REVOKE
 ```
 docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "INSERT INTO my_keyspace.my_table (id, name, age) VALUES ('cac06674-f1cb-41db-b9fc-4aab2f69a3d2', 'Meriadoc Brandybuck',36);"
+```
+
+### Cleanup
+```
+docker compose down -v
 ```
 
 ### Other notes
