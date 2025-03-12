@@ -76,8 +76,9 @@ docker compose exec -it scylla nodetool status
 ```
 
 ### Sanity check after enabling Scylla LDAP
-Note: You can follow the `scylla` container logs and see the messages when doing the queries above
+Note: You can follow the `scylla` container logs and see the messages when doing the queries above. You will notice that the user roles are auto created upon login. 
 ```
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES;"
 docker compose exec -it scylla cqlsh -u johndoe -p password123 -e "LIST ROLES;"
 docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "LIST ROLES;"
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES;"
@@ -123,6 +124,7 @@ docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "DROP ROLE rea
 ```
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE johnsmith WITH LOGIN = true;"
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "CREATE ROLE scyllauserwithpw WITH PASSWORD = 'helloworld' AND LOGIN = true;"
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES;"
 ```
 
 ### You can NOT alter roles and change passwords (LDAP should do this)
