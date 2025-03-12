@@ -10,6 +10,7 @@ Configure:
 Note:
 - If you want to test your `ldap_url_template` for correctness a simple `curl` command replacing the user value should work: `curl -u "cn=admin,dc=example,dc=org" "ldap://openldap:389/ou=IT,dc=example,dc=org?cn?sub?(uniqueMember=uid=anna.meier,ou=IT,dc=example,dc=org)"`
 - Volumes are created, take note when cleaning up or fresh installing.
+- Tested with `2024.1.x` and `2024.2.x`. Role (`system_auth`) tables for `2024.2.x` had been moved to `system`.
 
 ### Clone repo, build and start
 ```
@@ -57,7 +58,7 @@ docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ALL PERM
 
 ### Double check current roles
 ```
-docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "SELECT * FROM system_auth.roles;"
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES;"
 ```
 
 ### Sanity check LDAP bootstrap
@@ -77,14 +78,16 @@ docker compose exec -it scylla nodetool status
 ### Sanity check after enabling Scylla LDAP
 Note: You can follow the `scylla` container logs and see the messages when doing the queries above
 ```
-docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "SELECT * FROM system_auth.roles;"
-docker compose exec -it scylla cqlsh -u johndoe -p password123 -e "SELECT * FROM system_auth.roles;"
-docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "SELECT * FROM system_auth.roles;"
+docker compose exec -it scylla cqlsh -u johndoe -p password123 -e "LIST ROLES;"
+docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "LIST ROLES;"
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES;"
 ```
+
 This next command is expected to fail as `peter.schmidt` is NOT a member of the IT ou
 ```
 # Expected to fail (not in any roles per role manager)
-docker compose exec -it scylla cqlsh -u peter.schmidt  -p password789 -e "SELECT * FROM system_auth.roles;"
+docker compose exec -it scylla cqlsh -u peter.schmidt  -p password789 -e "LIST ROLES;"
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES;"
 ```
 
 ### Create keyspace and table with roles
@@ -129,8 +132,9 @@ docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "ALTER ROLE jo
 
 ### You CAN alter roles and grant SUPERUSER
 ```
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES OF johndoe;"
 docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "ALTER ROLE johndoe WITH SUPERUSER = true;"
-docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "SELECT * FROM system_auth.roles;"
+docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "LIST ROLES OF johndoe;"
 ```
 
 ### You CAN alter keyspaces
