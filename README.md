@@ -121,10 +121,9 @@ docker compose exec -it scylla cqlsh -u anna.meier -p password456 -e "SELECT * f
 ### Additional CQLSH Tests
 Some commands will not work as intended. See note in https://enterprise.docs.scylladb.com/stable/operating-scylla/security/ldap-authorization.html#introduction 
 
-### You can NOT drop roles (users and roles)
-```
-docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "DROP ROLE read_only;"
-```
+### ~~You can NOT drop roles (users and roles)~~
+~~`docker compose exec -it scylla cqlsh -u cassandra -p cassandra -e "DROP ROLE read_only;"`~~
+
 
 ### You CAN create users with LOGIN = true but login is still LDAP dependent. You can NOT create a user with a password
 ```
