@@ -10,7 +10,8 @@ Configure:
 Note:
 - If you want to test your `ldap_url_template` for correctness a simple `curl` command replacing the user value should work: `curl -u "cn=admin,dc=example,dc=org" "ldap://openldap:389/ou=IT,dc=example,dc=org?cn?sub?(uniqueMember=uid=anna.meier,ou=IT,dc=example,dc=org)"`
 - Volumes are created, take note when cleaning up or fresh installing.
-- Tested with `2024.1.x` and `2024.2.x`. Role (`system_auth`) tables for `2024.2.x` had been moved to `system`.
+- Tested with `2024.1.x`, `2024.2.x`, and `2026.1.x`. Role (`system_auth`) tables for `2024.2.x` had been moved to `system`.
+- As of `2026.1.x`, ScyllaDB uses Rocky Linux 9 instead of Debian. The `saslauthd` service now starts automatically via supervisord.
 
 ### Clone repo, build and start
 ```
@@ -20,10 +21,15 @@ docker compose build
 docker compose up -d
 ```
 
-### Sanity check for Scylla and start `saslauthd`
+### Sanity check for Scylla and verify `saslauthd` is running
 ```
 docker compose exec -it scylla nodetool status
-docker compose exec -it scylla service saslauthd start
+docker compose exec -it scylla supervisorctl status saslauthd
+```
+
+Note: `saslauthd` now starts automatically via supervisord. If you need to restart it manually:
+```
+docker compose exec -it scylla supervisorctl restart saslauthd
 ```
 
 ### About roles with users login 

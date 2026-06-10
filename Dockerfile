@@ -4,5 +4,10 @@ FROM scylladb/scylla:2026.1.3
 
 # Install system packages
 USER root
-RUN apt update && apt install -y sasl2-bin vim openldap-utils
-COPY ./scylla/saslauthd /etc/default/saslauthd
+RUN microdnf install -y cyrus-sasl cyrus-sasl-plain \
+    vim-minimal openldap-clients && microdnf clean all
+
+# Configure saslauthd
+COPY ./scylla/saslauthd /etc/sysconfig/saslauthd
+COPY ./scylla/saslauthd-supervisor.conf /etc/supervisord.conf.d/saslauthd.conf
+RUN mkdir -p /var/run/saslauthd
